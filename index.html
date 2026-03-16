@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Resume Builder</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Load required libraries in correct order -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Interactive Resume Builder</h1>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+            <span class="progress-text" id="progressText">0% Complete</span>
+        </div>
+        
+        <div class="builder-container">
+            <div class="form-section">
+                <form id="resumeForm">
+                    <div class="form-group">
+                        <h2 class="section-title">Personal Information</h2>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" placeholder="John Doe">
+                            </div>
+                            <div class="form-col">
+                                <label for="profession">Profession</label>
+                                <input type="text" id="profession" placeholder="Software Developer">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" placeholder="john@example.com">
+                            </div>
+                            <div class="form-col">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" placeholder="(123) 456-7890">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" placeholder="123 Main St, City, Country">
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="summary">Professional Summary</label>
+                            <textarea id="summary" rows="4" placeholder="Briefly describe your professional background and skills..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h2 class="section-title">Education</h2>
+                        <div id="educationFields">
+                            <div class="education-entry">
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <label>Degree</label>
+                                        <input type="text" class="education-degree" placeholder="Bachelor of Science">
+                                    </div>
+                                    <div class="form-col">
+                                        <label>Field of Study</label>
+                                        <input type="text" class="education-field" placeholder="Computer Science">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <label>Institution</label>
+                                        <input type="text" class="education-institution" placeholder="University of Example">
+                                    </div>
+                                    <div class="form-col">
+                                        <label>Year</label>
+                                        <input type="text" class="education-year" placeholder="2015-2019">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn remove-btn remove-education" style="background-color: #e74c3c; color: white; margin-top: 10px;">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" id="addEducation" class="btn add-btn">
+                            <i class="fas fa-plus"></i> Add Education
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h2 class="section-title">Work Experience</h2>
+                        <div id="experienceFields">
+                            <div class="experience-entry">
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <label>Job Title</label>
+                                        <input type="text" class="experience-title" placeholder="Software Engineer">
+                                    </div>
+                                    <div class="form-col">
+                                        <label>Company</label>
+                                        <input type="text" class="experience-company" placeholder="Tech Corp Inc.">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <label>Duration</label>
+                                        <input type="text" class="experience-duration" placeholder="2019-Present">
+                                    </div>
+                                    <div class="form-col">
+                                        <label>Location</label>
+                                        <input type="text" class="experience-location" placeholder="San Francisco, CA">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <label>Description</label>
+                                    <textarea class="experience-description" rows="3" placeholder="Describe your responsibilities and achievements..."></textarea>
+                                </div>
+                                <button type="button" class="btn remove-btn remove-experience" style="background-color: #e74c3c; color: white; margin-top: 10px;">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" id="addExperience" class="btn add-btn">
+                            <i class="fas fa-plus"></i> Add Experience
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h2 class="section-title">Skills</h2>
+                        <div class="skills-container" id="skillsContainer">
+                            <div class="skill-tag">
+                                <input type="text" class="skill-input" placeholder="Add skill">
+                                <button type="button" class="remove-skill"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <button type="button" id="addSkill" class="btn add-btn">
+                            <i class="fas fa-plus"></i> Add Skill
+                        </button>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="resetForm" class="btn reset-btn">
+                            <i class="fas fa-redo"></i> Reset Form
+                        </button>
+                        <button type="button" id="downloadResume" class="btn download-btn">
+                            <i class="fas fa-download"></i> Download Resume
+                        </button>
+                        
+                    </div>
+                </form>
+            </div>
+            
+            <div class="preview-section">
+                <h2 class="section-title">Resume Preview</h2>
+                <div class="resume-preview" id="resumePreview">
+                    <div class="resume-header">
+                        <h1 id="previewName">Your Name</h1>
+                        <h2 id="previewProfession">Your Profession</h2>
+                        <div class="contact-info">
+                            <p id="previewEmail">email@example.com</p>
+                            <p id="previewPhone">(123) 456-7890</p>
+                            <p id="previewAddress">123 Main St, City, Country</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Summary</h3>
+                        <p id="previewSummary">Your professional summary goes here.</p>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Education</h3>
+                        <div id="previewEducation">
+                            <div class="education-item">
+                                <h4>Degree in Field of Study</h4>
+                                <p class="institution">Institution Name</p>
+                                <p class="year">Year</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Experience</h3>
+                        <div id="previewExperience">
+                            <div class="experience-item">
+                                <h4>Job Title at Company</h4>
+                                <p class="duration-location">Duration | Location</p>
+                                <p class="description">Job description goes here.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Skills</h3>
+                        <div class="skills-list" id="previewSkills">
+                            <span class="skill">Sample Skill</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
